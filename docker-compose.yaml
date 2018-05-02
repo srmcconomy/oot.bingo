@@ -1,0 +1,32 @@
+version: "3.6"
+services:
+  nginx:
+    image: srmcconomy/nginx-proxy
+    ports:
+    - 80:80
+    volumes:
+    - /var/run/docker.sock:/tmp/docker.sock:ro
+    - static-config:/etc/nginx/vhost.d/:ro
+    - statics:/www/data/:ro
+
+  balanced-bingo:
+    image: srmcconomy/balanced-bingo
+    volumes:
+    - static-config:/www/data/static-config
+    - statics:/www/data/statics
+    environment:
+    - VIRTUAL_HOST=generator.oot.bingo
+    - STATIC=true
+    command: tail -f /dev/null
+
+  streamtools:
+    image: srmcconomy/streamtools
+    environment:
+    - VIRTUAL_HOST=streamtools.oot.bingo
+    - PORT=8080
+    expose:
+    - '8080'
+
+volumes:
+  statics:
+  static-config:
