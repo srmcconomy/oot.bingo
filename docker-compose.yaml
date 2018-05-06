@@ -6,6 +6,7 @@ services:
     - 80:80
     volumes:
     - /var/run/docker.sock:/tmp/docker.sock:ro
+    - ./certs:/etc/nginx/certs
     - static-config:/etc/nginx/vhost.d/:ro
     - statics:/www/data/:ro
 
@@ -26,6 +27,14 @@ services:
     - PORT=8080
     expose:
     - '8080'
+
+  certbot:
+    image: gordonchan/auto-letsencrypt
+    environment:
+    - EMAIL=srmcconomy@gmail.com
+    - SERVER_CONTAINER=nginx
+
+
 
 volumes:
   statics:
