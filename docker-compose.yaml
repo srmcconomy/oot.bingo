@@ -28,14 +28,6 @@ services:
     expose:
     - '8080'
 
-  certbot:
-    image: gordonchan/auto-letsencrypt
-    environment:
-    - EMAIL=srmcconomy@gmail.com
-    - SERVER_CONTAINER=nginx
-
-
-
 volumes:
   statics:
   static-config:
